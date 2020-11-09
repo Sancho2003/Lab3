@@ -14,7 +14,6 @@ plt.savefig('res.png')
 img = Image.open('res.png').rotate(90)
 pixels = img.load()
 width, height = img.size
-print(width, height)
 total_pixels = []
 for x in range(width):
     for y in range(height):
