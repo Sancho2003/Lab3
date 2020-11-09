@@ -11,7 +11,7 @@ def header(height, width):
 
 
 def info(height, width):
-    header_size = 60
+    header_size = 40
     image_height = height
     image_width = width
     plane = 1
