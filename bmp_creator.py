@@ -1,39 +1,33 @@
 from struct import pack
 
 
-def header(height, width):
+def header(width, height):
     file_type = 19778
     res_1 = 0
     res_2 = 0
-    pix_off = 62
-    file_size = pix_off + 1 * height * width
-    return pack('<HLHHL', file_type, file_size, res_1, res_2, pix_off)
+    pix_offset = 62
+    file_size = pix_offset + 1 * width * height
+    return pack('<HLHHL', file_type, file_size, res_1, res_2, pix_offset)
 
 
-def info(height, width):
+def info(width, height):
     header_size = 40
-    image_height = height
     image_width = width
-    plane = 1
-    image_size = 0
+    image_height = height
+    planes = 1
+    pix_bits = 8
     compression = 0
-    pix_x = 0
-    pix_y = 0
-    general_colors = 0
+    image_size = 0
+    x_pix = 0
+    y_pix = 0
+    total_colors = 0
     major_colors = 0
-    pix_bit = 8
-    return pack('<LLLHLLLLLLH', header_size,
-                image_height, image_width,
-                plane, image_size,
-                compression, pix_x, pix_y,
-                general_colors, major_colors, pix_bit)
-
-
-def pixel_data(pixels):
-    pix_data = b''
-    for pix in reversed(pixels):
-        pix_data += pack('<B', pix)
-    return pix_data
+    return pack('<LLLHHLLLLLL', header_size,
+                image_width, image_height,
+                planes, pix_bits,
+                compression, image_size,
+                x_pix, y_pix,
+                total_colors, major_colors)
 
 
 def color():
@@ -42,19 +36,26 @@ def color():
     return pack('<BBBBBBBB', *color_1, *color_2)
 
 
-def create_bmp(name, pixels, height, width):
-    with open(name, 'wb') as f:
-        f.write(header(height, width))
-        f.write(info(height, width))
+def pixel_data(pixels):
+    pix_data = b''
+    for px in reversed(pixels):
+        pix_data += pack('<B', px)
+    return pix_data
+
+
+def create_bmp(file_name, pixels, width, height):
+    with open(file_name, 'wb') as f:
+        f.write(header(width, height))
+        f.write(info(width, height))
         f.write(color())
         f.write(pixel_data(pixels))
 
 
-if __name__ == '__main__':
-    height = 4
+if __name__ == "__main__":
     width = 4
-    pixel = [0, 1, 1, 0,
-             1, 0, 0, 1,
-             1, 1, 1, 1,
-             1, 0, 0, 1]
-    create_bmp('test.bmp', pixel, 4, 4)
+    height = 4
+    pix = [0, 1, 1, 0,
+           1, 0, 0, 1,
+           1, 1, 1, 1,
+           1, 0, 0, 1]
+    create_bmp('test.bmp', pix, 4, 4)
