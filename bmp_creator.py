@@ -51,10 +51,10 @@ def create_bmp(name, pixels, height, width):
 
 
 if __name__ == '__main__':
-    height = 6
-    width = 6
+    height = 4
+    width = 4
     pixel = [0, 1, 1, 0,
              1, 0, 0, 1,
              1, 1, 1, 1,
              1, 0, 0, 1]
-    create_bmp('test.bmp', pixel, 6, 6)
+    create_bmp('test.bmp', pixel, 4, 4)

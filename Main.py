@@ -8,7 +8,7 @@ import Test
 t = numpy.linspace(0, 2 * numpy.pi)
 x = (numpy.sin(t) ** 3) * 16
 y = numpy.cos(t) * 13 - numpy.cos(2 * t) * 5 - numpy.cos(3 * t) * 2 - numpy.cos(4 * t)
-fig = plt.figure(figsize=(6, 6))
+fig = plt.figure(figsize=(4, 4))
 plt.plot(x, y, 'k')
 plt.savefig('result.png')
 img = Image.open('result.png').rotate(90)
